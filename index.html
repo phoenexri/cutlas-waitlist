@@ -22,7 +22,7 @@
 <!-- The app's real typefaces (see src/studio/tokens.ts) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=DM+Sans:wght@400;500;600&family=Zilla+Slab:wght@600&display=swap">
 
 <style>
   /* ---- studio tokens (1:1 with src/studio/tokens.ts) ---- */
@@ -41,12 +41,16 @@
     --text-dim: #9a938a;
     --text-faint: #7a7368;
     --accent: var(--amber);        /* link/label color per scheme */
+    /* the "currently lit" amber. brighter than --accent in the dark, deeper in
+       the light — #ffc857 on a near-white page is unreadable. */
+    --lit: var(--amber-bright);
     --field-bg: #171310;
     --card-bg: var(--surface);
     --page-bg: var(--ink);
     --ff-display: "Bricolage Grotesque", -apple-system, "Segoe UI", sans-serif;
     --ff-body: "DM Sans", -apple-system, "Segoe UI", sans-serif;
-    --ff-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    /* Label/eyebrow face — Zilla Slab, matching ff.mono in tokens.ts. */
+    --ff-mono: "Zilla Slab", Rockwell, Georgia, serif;
   }
   @media (prefers-color-scheme: light) {
     :root {
@@ -60,6 +64,7 @@
       --text-dim: #6b645a;
       --text-faint: #8a8378;
       --accent: var(--amber-deep);
+      --lit: var(--amber-deep);
     }
   }
 
@@ -77,9 +82,9 @@
 
   /* display headings carry the identity */
   .display { font-family: var(--ff-display); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; }
-  /* eyebrow: a quiet legend label — a short amber tick, then tracked grotesque caps.
+  /* eyebrow: a quiet legend label — a short amber tick, then tracked slab caps.
      the tick echoes the range rings (a mark on a ring), not a decorative flourish. */
-  .eyebrow { font-family: var(--ff-display); font-weight: 700; text-transform: uppercase;
+  .eyebrow { font-family: var(--ff-mono); font-weight: 600; text-transform: uppercase;
              letter-spacing: 0.14em; font-size: 0.7rem; color: var(--accent);
              display: inline-flex; align-items: center; }
   .eyebrow::before { content: ""; width: 16px; height: 1px; background: currentColor; margin-right: 10px; opacity: 0.6; }
@@ -172,7 +177,7 @@
   }
   .phone-viewport::-webkit-scrollbar { width: 0; height: 0; }
   .phone-screen[hidden] { display: none; }
-  .phone .p-eyebrow { font-family: var(--ff-display); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.6rem; color: var(--amber); margin-bottom: 5px; }
+  .phone .p-eyebrow { font-family: var(--ff-mono); font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.6rem; color: var(--amber); margin-bottom: 5px; }
   .phone h3 { font-family: var(--ff-display); font-weight: 800; letter-spacing: -0.03em; font-size: 1.7rem; color: #f5f0e8; margin-bottom: 14px; }
 
   /* discover list */
@@ -215,7 +220,7 @@
   .prof-rating .prof-dim { color: #9a938a; }
   .stars { color: var(--amber-bright); letter-spacing: 1px; }
   .stars.sm { font-size: 0.8rem; }
-  .prof-label { font-family: var(--ff-mono); font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; color: #9a938a; margin: 16px 0 9px; }
+  .prof-label { font-family: var(--ff-mono); font-weight: 600; font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; color: #9a938a; margin: 16px 0 9px; }
   .prof-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; }
   .prof-grid span { aspect-ratio: 1; border-radius: 9px; background: #2a2118; box-shadow: inset 0 0 0 1px rgba(245,240,232,0.05); }
   .prof-grid span:nth-child(2) { background: #241c14; }
@@ -248,7 +253,7 @@
   .acct-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 2px;
               border-bottom: 1px solid var(--hairline); font-size: 0.86rem; color: #f5f0e8; }
   .acct-dim { color: #9a938a; }
-  .acct-badge { font-family: var(--ff-mono); font-size: 0.56rem; letter-spacing: 0.08em; text-transform: uppercase;
+  .acct-badge { font-family: var(--ff-mono); font-weight: 600; font-size: 0.56rem; letter-spacing: 0.08em; text-transform: uppercase;
                 color: var(--amber-bright); border: 1px solid rgba(212,168,67,0.4); border-radius: 100px; padding: 3px 8px; }
 
   /* "available at launch" toast */
@@ -320,17 +325,110 @@
   .b-feat { text-align: left; font-size: 0.8rem; color: #cfc7bb; margin: 9px 0; }
   .b-feat::before { content: "\2713"; color: var(--amber); font-weight: 700; margin-right: 9px; }
 
-  /* ---- how it works ---- */
-  .how { padding: 56px 0 30px; border-top: 1px solid var(--hairline); margin-top: 40px; }
-  .how-grid { display: grid; gap: 36px; margin-top: 26px; }
-  @media (min-width: 720px) { .how-grid { grid-template-columns: 1fr 1fr; } }
-  .how h2 { font-size: clamp(1.7rem, 4.5vw, 2.2rem); }
-  .lane h3 { font-family: var(--ff-display); font-weight: 700; letter-spacing: -0.02em; font-size: 1.15rem; margin-bottom: 14px; }
-  .step { display: flex; gap: 14px; margin-bottom: 16px; }
-  /* steps marked as clipper guard numbers (#1 #2 #3) — the barber's own vernacular */
-  .step .n { font-family: var(--ff-display); font-weight: 800; font-size: 1rem; color: var(--accent); padding-top: 1px; flex: none; }
-  .step p { font-size: 0.92rem; color: var(--text-dim); }
-  .step strong { color: var(--text); font-weight: 600; }
+  /* ---- how it works: a route down a wavy rail, walked by scrolling ----
+     One continuous path for the whole section, generated in JS from the
+     measured badge positions, with a single light travelling along it. The
+     steps themselves indent in and out so each badge sits on the wave rather
+     than the wave detouring around a fixed column. */
+  .how { padding: 62px 0 30px; border-top: 1px solid var(--hairline); margin-top: 40px; }
+  .how h2 { font-size: clamp(1.7rem, 4.5vw, 2.2rem); margin: 12px 0 8px; }
+  .how-lede { font-size: 0.98rem; color: var(--text-dim); max-width: 34em; margin-bottom: 22px; }
+  /* same pill as the hero preview toggle — one control vocabulary on the page */
+  .how-toggle { margin-bottom: 30px; }
+  .how-caption { text-align: left; margin: 4px 0 0 84px; max-width: none; }
+
+  .track { position: relative; }
+  /* only one lane is on the rail at a time; the other is out of the layout so
+     the path is generated from the three badges actually on screen */
+  .lane[hidden] { display: none; }
+
+  /* The wave amplitude IS the indent difference between odd and even steps.
+     --sway is the horizontal throw; --gut is the gap from badge to copy. */
+  .track { --sway: 62px; --gut: 60px; }
+  @media (max-width: 559px) { .track { --sway: 26px; --gut: 46px; } }
+
+  .stepx { position: relative; padding-bottom: 46px; display: grid; gap: 20px; }
+  .stepx { padding-left: calc(var(--gut) + 24px); }
+  .stepx:nth-of-type(even) { padding-left: calc(var(--gut) + 24px + var(--sway)); }
+  @media (min-width: 780px) {
+    .stepx { grid-template-columns: minmax(0, 1fr) 340px; gap: 40px; align-items: start; padding-bottom: 52px; }
+  }
+
+  .rail { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; z-index: 0; }
+  .rail path { fill: none; stroke-width: 1.5; stroke-linecap: round; }
+  .rail .bed { stroke: var(--hairline2); }
+  .rail .lit { stroke: var(--accent); }
+  /* measured against, never drawn — it exists so JS can read the path length
+     at each badge without re-scanning points */
+  .rail .probe { stroke: none; fill: none; }
+  .rail .head { opacity: 0; }
+  .rail .head .halo { fill: rgba(212,168,67,0.15); }
+  .rail .head .dot { fill: var(--lit); filter: drop-shadow(0 0 7px rgba(212,168,67,0.95)); }
+
+  /* the badge: a bulb on the line. dark ring until the light reaches it. */
+  .stepx .n {
+    position: absolute; left: 0; top: 2px; z-index: 1;
+    width: 52px; height: 52px; border-radius: 50%;
+    display: grid; place-items: center;
+    font-family: var(--ff-display); font-weight: 800; font-size: 1.12rem;
+    color: var(--text-faint);
+    border: 1.5px solid var(--hairline2);
+    /* opaque, so the rail reads as passing behind the bulb */
+    background: var(--page-bg);
+  }
+  @media (max-width: 559px) { .stepx .n { width: 44px; height: 44px; font-size: 1rem; } }
+  .stepx:nth-of-type(even) .n { left: var(--sway); }
+  .stepx h3 { font-family: var(--ff-display); font-weight: 700; letter-spacing: -0.02em; font-size: 1.42rem; margin-bottom: 8px; }
+  .stepx p { font-size: 1.02rem; color: var(--text-dim); max-width: 32em; }
+
+  /* ---- step scenes: the app's own surfaces, shrunk. dark in both page
+     schemes, exactly like the hero phone, because that is what the app is. ---- */
+  .scene {
+    position: relative; overflow: hidden;
+    background: #0b0805; border: 1px solid rgba(245,240,232,0.12); border-radius: 20px;
+    padding: 16px; min-height: 214px;
+    box-shadow: 0 0 0 1px rgba(212,168,67,0.10), 0 14px 34px rgba(0,0,0,0.34);
+  }
+  .sc-eyebrow { font-family: var(--ff-mono); font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.62rem; color: var(--amber); margin-bottom: 11px; }
+  .sc-cap { font-size: 0.7rem; color: #9a938a; margin-bottom: 11px; }
+
+  .sc-row { display: flex; align-items: center; gap: 10px; background: #1f1812; border: 1px solid rgba(245,240,232,0.08); border-radius: 12px; padding: 9px 10px; margin-bottom: 7px; }
+  .sc-av { width: 31px; height: 31px; flex: none; border-radius: 9px; background: var(--amber); color: #0a0907; font-family: var(--ff-display); font-weight: 800; font-size: 0.7rem; text-transform: uppercase; display: grid; place-items: center; }
+  .sc-av.alt { background: #5f594f; color: #f5f0e8; }
+  .sc-b { min-width: 0; flex: 1; }
+  .sc-n { display: block; font-weight: 600; font-size: 0.81rem; color: #f5f0e8; }
+  .sc-m { display: block; font-size: 0.68rem; color: #9a938a; }
+  .sc-chip { flex: none; font-family: var(--ff-mono); font-weight: 600; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--amber); border: 1px solid rgba(212,168,67,0.45); border-radius: 999px; padding: 3px 8px; }
+  .sc-chip.dim { color: #9a938a; border-color: rgba(245,240,232,0.16); }
+  .sc-chip.ok { color: #86c58a; border-color: rgba(134,197,138,0.42); }
+  .sc-ok { margin-top: 9px; }
+
+  /* 1 — browse */
+  .sc-search { display: flex; align-items: center; background: #171310; border: 1px solid rgba(245,240,232,0.12); border-radius: 10px; padding: 8px 11px; margin-bottom: 11px; font-size: 0.76rem; color: #f5f0e8; }
+  .sc-typed { white-space: nowrap; overflow: hidden; width: 12ch; }
+  .sc-caret { width: 1.5px; height: 0.85em; background: var(--amber); margin-left: 1px; flex: none; }
+
+  /* 2 — verify */
+  .sc-otp { display: flex; gap: 6px; }
+  .sc-otp i { flex: 1; font-style: normal; text-align: center; font-family: var(--ff-display); font-weight: 800; font-size: 1rem; color: #f5f0e8; background: #171310; border: 1px solid rgba(245,240,232,0.14); border-radius: 9px; padding: 10px 0; }
+
+  /* 3 — book */
+  .sc-slots { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  .sc-slots i { font-style: normal; text-align: center; font-size: 0.7rem; color: #cfc7bb; background: #171310; border: 1px solid rgba(245,240,232,0.14); border-radius: 9px; padding: 10px 0; }
+  .sc-pay { display: flex; justify-content: space-between; align-items: center; margin-top: 11px; background: #1f1812; border: 1px solid rgba(212,168,67,0.32); border-radius: 11px; padding: 10px 12px; font-size: 0.76rem; color: #9a938a; }
+  .sc-pay b { font-family: var(--ff-display); font-weight: 800; font-size: 1rem; color: var(--amber-bright); }
+
+  /* 4 — listing */
+  .sc-dots { display: flex; gap: 6px; margin-bottom: 12px; }
+  .sc-dots i { flex: 1; height: 6px; border-radius: 3px; background: rgba(245,240,232,0.12); }
+
+  /* 5 — upload */
+  .sc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .sc-grid i { aspect-ratio: 1; border-radius: 8px; background: linear-gradient(135deg, #2a2118, #1f1812); border: 1px solid rgba(245,240,232,0.08); }
+  .sc-grid i:nth-child(2n) { background: linear-gradient(135deg, #33281c, #241c14); }
+
+  /* 6 — chair */
+  .sc-toast { background: rgba(212,168,67,0.14); border: 1px solid rgba(212,168,67,0.4); border-radius: 10px; padding: 8px 11px; margin-bottom: 10px; font-size: 0.72rem; font-weight: 600; color: var(--amber-bright); }
 
   /* ---- footer ---- */
   footer { border-top: 1px solid var(--hairline); margin-top: 40px; padding: 28px 0 48px; }
@@ -367,7 +465,111 @@
       12% { opacity: 0.5; }
       100% { r: 360px; opacity: 0; }
     }
+
+    /* ---- how it works ----
+       `.live` is added by JS. Scoping the dimmed resting state to it means a
+       failed or blocked script leaves every step fully lit and readable
+       instead of stuck at 30% forever. `.is-active` = on screen now (scenes
+       animate); `.is-lit` = the travelling light has reached this bulb. */
+    .track.live .stepx-copy, .track.live .scene {
+      opacity: 0.3; transform: translateY(10px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .track.live .stepx.is-active .stepx-copy,
+    .track.live .stepx.is-active .scene { opacity: 1; transform: none; }
+
+    /* The bulb lights when the travelling head reaches it and goes out when it
+       passes back the other way. `is-lit` is a pure function of scroll
+       position, so this works upward as well as downward, any number of
+       times — nothing latches. */
+    .track.live .stepx .n {
+      transition: color 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+    }
+    .track.live .stepx.is-lit .n {
+      color: var(--lit); border-color: var(--lit);
+      box-shadow: 0 0 0 4px rgba(212,168,67,0.10), 0 0 20px rgba(212,168,67,0.45);
+    }
+    .track.live .rail .head { transition: opacity 0.3s ease; }
+
+    /* Scene loops. Every one is a 5s cycle and every one is bound to
+       `.is-active`, so nothing animates off screen — six always-running
+       loops would be a real battery cost on the phones we care about. */
+    @keyframes scPop  { 0% { opacity: 0; transform: translateY(6px); } 8%, 90% { opacity: 1; transform: none; } 100% { opacity: 0; } }
+    @keyframes scDeal { 0% { opacity: 0; transform: translateY(10px); } 10%, 88% { opacity: 1; transform: none; } 100% { opacity: 0; transform: translateY(-4px); } }
+
+    /* 1 — searching, then the nearest chairs deal in and the top one is tapped */
+    .stepx.is-active .sc-browse .sc-typed { animation: scType 5s steps(12) infinite; }
+    @keyframes scType { 0% { width: 0; } 20%, 100% { width: 12ch; } }
+    .stepx.is-active .sc-browse .sc-caret { animation: scBlink 0.9s steps(1) infinite; }
+    @keyframes scBlink { 0%, 50% { opacity: 1; } 50.01%, 100% { opacity: 0; } }
+    .stepx.is-active .sc-browse .sc-row { animation: scDeal 5s ease infinite backwards; }
+    .stepx.is-active .sc-browse .r1 { animation: scDeal 5s ease 1.1s infinite backwards, scTap 5s ease 1.1s infinite backwards; }
+    .stepx.is-active .sc-browse .r2 { animation-delay: 1.32s; }
+    .stepx.is-active .sc-browse .r3 { animation-delay: 1.54s; }
+    @keyframes scTap {
+      0%, 46% { border-color: rgba(245,240,232,0.08); box-shadow: none; }
+      54%, 80% { border-color: rgba(212,168,67,0.6); box-shadow: 0 0 14px rgba(212,168,67,0.22); }
+      100% { border-color: rgba(245,240,232,0.08); box-shadow: none; }
+    }
+
+    /* 2 — the code lands a digit at a time, then the gate opens */
+    .stepx.is-active .sc-verify .sc-otp i { animation: scDigit 5s ease infinite backwards; }
+    .stepx.is-active .sc-verify .sc-otp i:nth-child(1) { animation-delay: 0.35s; }
+    .stepx.is-active .sc-verify .sc-otp i:nth-child(2) { animation-delay: 0.55s; }
+    .stepx.is-active .sc-verify .sc-otp i:nth-child(3) { animation-delay: 0.75s; }
+    .stepx.is-active .sc-verify .sc-otp i:nth-child(4) { animation-delay: 0.95s; }
+    .stepx.is-active .sc-verify .sc-otp i:nth-child(5) { animation-delay: 1.15s; }
+    .stepx.is-active .sc-verify .sc-otp i:nth-child(6) { animation-delay: 1.35s; }
+    @keyframes scDigit {
+      0% { opacity: 0; transform: scale(0.86); border-color: rgba(245,240,232,0.14); }
+      8%, 86% { opacity: 1; transform: none; border-color: rgba(212,168,67,0.55); }
+      100% { opacity: 0; border-color: rgba(245,240,232,0.14); }
+    }
+    .stepx.is-active .sc-verify .sc-ok { animation: scPop 5s ease 2s infinite backwards; }
+
+    /* 3 — pick a time, then the dollar clears */
+    .stepx.is-active .sc-book .sc-slots i { animation: scPop 5s ease infinite backwards; }
+    .stepx.is-active .sc-book .sc-slots i:nth-child(1) { animation-delay: 0.3s; }
+    .stepx.is-active .sc-book .sc-slots i:nth-child(2) { animation-delay: 0.42s; }
+    .stepx.is-active .sc-book .sc-slots i:nth-child(4) { animation-delay: 0.66s; }
+    .stepx.is-active .sc-book .sc-slots .pick { animation: scPop 5s ease 0.54s infinite backwards, scPick 5s ease infinite; }
+    @keyframes scPick {
+      0%, 26% { background: #171310; color: #cfc7bb; border-color: rgba(245,240,232,0.14); }
+      34%, 100% { background: var(--amber); color: #0a0907; border-color: var(--amber); }
+    }
+    .stepx.is-active .sc-book .sc-pay { animation: scPop 5s ease 2.1s infinite backwards; }
+    .stepx.is-active .sc-book .sc-ok { animation: scPop 5s ease 3s infinite backwards; }
+
+    /* 4 — the six onboarding steps fill, then the trial turns on */
+    .stepx.is-active .sc-listing .sc-dots i { animation: scFill 5s ease infinite backwards; }
+    .stepx.is-active .sc-listing .sc-dots i:nth-child(1) { animation-delay: 0.2s; }
+    .stepx.is-active .sc-listing .sc-dots i:nth-child(2) { animation-delay: 0.45s; }
+    .stepx.is-active .sc-listing .sc-dots i:nth-child(3) { animation-delay: 0.7s; }
+    .stepx.is-active .sc-listing .sc-dots i:nth-child(4) { animation-delay: 0.95s; }
+    .stepx.is-active .sc-listing .sc-dots i:nth-child(5) { animation-delay: 1.2s; }
+    .stepx.is-active .sc-listing .sc-dots i:nth-child(6) { animation-delay: 1.45s; }
+    @keyframes scFill { 0% { background: rgba(245,240,232,0.12); } 8%, 88% { background: var(--amber); } 100% { background: rgba(245,240,232,0.12); } }
+    .stepx.is-active .sc-listing .sc-ok { animation: scPop 5s ease 2s infinite backwards; }
+
+    /* 5 — the storefront fills up, one cut at a time */
+    .stepx.is-active .sc-upload .sc-grid i { animation: scTile 5s ease infinite backwards; }
+    .stepx.is-active .sc-upload .sc-grid i:nth-child(1) { animation-delay: 0.2s; }
+    .stepx.is-active .sc-upload .sc-grid i:nth-child(2) { animation-delay: 0.35s; }
+    .stepx.is-active .sc-upload .sc-grid i:nth-child(3) { animation-delay: 0.5s; }
+    .stepx.is-active .sc-upload .sc-grid i:nth-child(4) { animation-delay: 0.65s; }
+    .stepx.is-active .sc-upload .sc-grid i:nth-child(5) { animation-delay: 0.8s; }
+    .stepx.is-active .sc-upload .sc-grid i:nth-child(6) { animation-delay: 0.95s; }
+    @keyframes scTile { 0% { opacity: 0; transform: scale(0.8); } 7%, 88% { opacity: 1; transform: none; } 100% { opacity: 0; } }
+    .stepx.is-active .sc-upload .sc-ok { animation: scPop 5s ease 1.8s infinite backwards; }
+
+    /* 6 — a request drops in and the chair fills */
+    .stepx.is-active .sc-chair .sc-toast { animation: scToast 5s ease 0.4s infinite backwards; }
+    @keyframes scToast { 0% { opacity: 0; transform: translateY(-8px); } 8%, 84% { opacity: 1; transform: none; } 100% { opacity: 0; transform: translateY(-8px); } }
+    .stepx.is-active .sc-chair .sc-row { animation: scDeal 5s ease infinite backwards; }
+    .stepx.is-active .sc-chair .r1 { animation-delay: 1s; }
+    .stepx.is-active .sc-chair .r2 { animation-delay: 1.28s; }
   }
+
 </style>
 </head>
 <body>
@@ -682,21 +884,125 @@
 
 <section class="how">
   <div class="wrap">
-    <h2 class="display">How It Works</h2>
-    <div class="how-grid">
-      <div class="lane">
-        <h3>Customers</h3>
-        <div class="step"><span class="n">#1</span><p><strong>Browse barbers near you.</strong> Real portfolios of the closest chairs.</p></div>
-        <div class="step"><span class="n">#2</span><p><strong>Verify your email once</strong> after you log in to unlock the vast catalog of independent barbers. It keeps both sides safe.</p></div>
-        <div class="step"><span class="n">#3</span><p><strong>Reserve your slot for $1.</strong> Pick a time, pay a $1 reservation fee, and you're booked. The cut itself is paid to your barber directly.</p></div>
-      </div>
-      <div class="lane">
-        <h3>Barbers</h3>
-        <div class="step"><span class="n">#1</span><p><strong>Create your listing free for 30 days.</strong> Card required to start the trial: Premium is $9/mo or $79/yr after.</p></div>
-        <div class="step"><span class="n">#2</span><p><strong>Upload your work.</strong> Post photos of your cuts, fades, and styles. Your portfolio is your storefront, and customers book what they can see.</p></div>
-        <div class="step"><span class="n">#3</span><p><strong>Fill your chair.</strong> Bookings come to you; the service payment stays 100% yours, off-platform.</p></div>
-      </div>
+    <p class="eyebrow">How It Works</p>
+    <h2 class="display">Follow the line</h2>
+    <p class="how-lede">Three steps, whichever side you're on. Scroll to walk the route &mdash; each stop shows the part of the app you'd actually be using.</p>
+
+    <div class="mode-toggle how-toggle" data-how-toggle aria-label="Show how Cutlas works for customers or for barbers">
+      <button type="button" class="active" data-lane-btn="customer">Customer</button>
+      <button type="button" data-lane-btn="barber">Barber</button>
     </div>
+
+    <div class="track" data-track>
+
+      <!-- One rail for the whole section. No viewBox: user units are CSS pixels,
+           so the path JS generates from measured badge positions lands exactly
+           on them at any width, with no aspect-ratio distortion. -->
+      <svg class="rail" data-rail width="100%" height="100%" aria-hidden="true">
+        <path class="bed"/>
+        <path class="lit"/>
+        <path class="probe" data-probe/>
+        <g class="head" data-head>
+          <circle class="halo" r="12"/>
+          <circle class="dot" r="4"/>
+        </g>
+      </svg>
+
+      <div class="lane" data-lane="customer">
+
+      <article class="stepx" data-step>
+        <span class="n">#1</span>
+        <div class="stepx-copy">
+          <h3>Browse barbers near you</h3>
+          <p>Real portfolios of the closest chairs.</p>
+        </div>
+        <div class="scene sc-browse" aria-hidden="true">
+          <p class="sc-eyebrow">Discover</p>
+          <div class="sc-search"><span class="sc-typed">fade near me</span><span class="sc-caret"></span></div>
+          <div class="sc-row r1"><span class="sc-av">fl</span><span class="sc-b"><b class="sc-n">Fade Lab</b><span class="sc-m">$25 &middot; open Sat</span></span><span class="sc-chip">0.8 mi</span></div>
+          <div class="sc-row r2"><span class="sc-av alt">tc</span><span class="sc-b"><b class="sc-n">Taper City</b><span class="sc-m">$30 &middot; evenings</span></span><span class="sc-chip dim">1.4 mi</span></div>
+          <div class="sc-row r3"><span class="sc-av">nb</span><span class="sc-b"><b class="sc-n">Northside Blends</b><span class="sc-m">$22 &middot; open now</span></span><span class="sc-chip dim">2.1 mi</span></div>
+        </div>
+      </article>
+
+      <article class="stepx" data-step>
+        <span class="n">#2</span>
+        <div class="stepx-copy">
+          <h3>Verify your email once</h3>
+          <p>After you log in, one code unlocks the vast catalog of independent barbers. It keeps both sides safe.</p>
+        </div>
+        <div class="scene sc-verify" aria-hidden="true">
+          <p class="sc-eyebrow">Verify Email</p>
+          <p class="sc-cap">We sent a 6-digit code</p>
+          <div class="sc-otp"><i>3</i><i>9</i><i>1</i><i>2</i><i>0</i><i>7</i></div>
+          <div class="sc-ok"><span class="sc-chip ok">Verified &middot; contact unlocked</span></div>
+        </div>
+      </article>
+
+      <article class="stepx" data-step>
+        <span class="n">#3</span>
+        <div class="stepx-copy">
+          <h3>Reserve your slot for $1</h3>
+          <p>Pick a time, pay a $1 reservation fee, and you're booked. The cut itself is paid to your barber directly.</p>
+        </div>
+        <div class="scene sc-book" aria-hidden="true">
+          <p class="sc-eyebrow">Book a Slot</p>
+          <p class="sc-cap">Sat, Aug 15 &middot; Fade Lab</p>
+          <div class="sc-slots"><i>10:00</i><i>11:30</i><i class="pick">1:00</i><i>3:30</i></div>
+          <div class="sc-pay"><span>Reservation</span><b>$1.00</b></div>
+          <div class="sc-ok"><span class="sc-chip ok">Booked &middot; pay your barber after</span></div>
+        </div>
+      </article>
+
+      </div><!-- /customer lane -->
+
+      <div class="lane" data-lane="barber" hidden>
+
+      <article class="stepx" data-step>
+        <span class="n">#1</span>
+        <div class="stepx-copy">
+          <h3>Create your listing free for 30 days</h3>
+          <p>Card required to start the trial: Premium is $9/mo or $79/yr after.</p>
+        </div>
+        <div class="scene sc-listing" aria-hidden="true">
+          <p class="sc-eyebrow">Create Listing</p>
+          <div class="sc-dots"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <p class="sc-cap">Basics &middot; Location &middot; Contact &middot; Hours &middot; Portfolio &middot; Activate</p>
+          <div class="sc-ok"><span class="sc-chip">30-day free trial active</span></div>
+        </div>
+      </article>
+
+      <article class="stepx" data-step>
+        <span class="n">#2</span>
+        <div class="stepx-copy">
+          <h3>Upload your work</h3>
+          <p>Post photos of your cuts, fades, and styles. Your portfolio is your storefront, and customers book what they can see.</p>
+        </div>
+        <div class="scene sc-upload" aria-hidden="true">
+          <p class="sc-eyebrow">Portfolio</p>
+          <div class="sc-grid"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="sc-ok"><span class="sc-chip">6 cuts uploaded</span></div>
+        </div>
+      </article>
+
+      <article class="stepx" data-step>
+        <span class="n">#3</span>
+        <div class="stepx-copy">
+          <h3>Fill your chair</h3>
+          <p>Bookings come to you; the service payment stays 100% yours, off-platform.</p>
+        </div>
+        <div class="scene sc-chair" aria-hidden="true">
+          <p class="sc-eyebrow">Your Bookings</p>
+          <div class="sc-toast">New booking request</div>
+          <div class="sc-row r1"><span class="sc-av">m</span><span class="sc-b"><b class="sc-n">Marcus R.</b><span class="sc-m">Sat &middot; 1:00 PM</span></span><span class="sc-chip ok">Confirmed</span></div>
+          <div class="sc-row r2"><span class="sc-av alt">d</span><span class="sc-b"><b class="sc-n">Devin O.</b><span class="sc-m">Sat &middot; 3:30 PM</span></span><span class="sc-chip dim">Pending</span></div>
+        </div>
+      </article>
+
+      </div><!-- /barber lane -->
+
+    </div>
+    <p class="p-caption how-caption">Illustrative preview &middot; real listings at launch.</p>
   </div>
 </section>
 
@@ -780,6 +1086,230 @@
     // gated actions never do anything real — they nudge to the waitlist
     phone.querySelectorAll('[data-lock]').forEach((b) =>
       b.addEventListener('click', () => flash('Available at launch. Join the waitlist above ↑')));
+  })();
+
+  // ============================================================
+  // How It Works — one light walking one continuous line.
+  //
+  // Two independent mechanisms, each doing what it is actually good at:
+  //
+  //   * Scroll position -> `is-lit` + the travelling head. Recomputed from
+  //     getBoundingClientRect every frame, so it is a pure function of where
+  //     the page is. Scroll up and the light walks back and the bulbs go out;
+  //     scroll down and they come on again. Nothing latches, so it stays
+  //     functional for as many passes as the reader makes.
+  //   * IntersectionObserver -> `is-active`, which gates the scene loops so
+  //     nothing animates off screen. Six perpetual loops would be a real
+  //     battery cost on the cheap Android hardware this page is read on.
+  //
+  // The path is generated rather than authored because it has to pass exactly
+  // through six badges whose positions depend on text wrapping, font loading,
+  // and viewport width. Measuring beats guessing.
+  // ============================================================
+  (function () {
+    const track = document.querySelector('[data-track]');
+    if (!track) return;
+
+    const svg = track.querySelector('[data-rail]');
+    if (!svg) return;
+
+    // Only the lane on screen is on the rail. `steps` is re-collected whenever
+    // the reader switches sides, because the path is generated from the
+    // badges that are actually laid out — a hidden lane measures as zero.
+    let steps = [];
+
+    const bed = svg.querySelector('.bed');
+    const lit = svg.querySelector('.lit');
+    const probe = svg.querySelector('[data-probe]');
+    const head = svg.querySelector('[data-head]');
+    if (!bed || !lit || !probe || !head) return;
+
+    const reduceMQ = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    // Dimmed resting styles only switch on once this script is definitely
+    // running. If it never does, the section stays fully legible.
+    track.classList.add('live');
+
+    let pathLen = 0;
+    let marks = [];   // 0..1 position along the path of each badge centre
+
+    function buildPath() {
+      if (!steps.length) return false;
+      const tr = track.getBoundingClientRect();
+      if (!tr.height) return false;
+
+      const pts = steps.map((step) => {
+        const b = step.querySelector('.n').getBoundingClientRect();
+        return { x: b.left - tr.left + b.width / 2, y: b.top - tr.top + b.height / 2 };
+      });
+
+      // lead-in above the first bulb and run-out below the last, so the line
+      // enters and leaves the section instead of starting out of nowhere
+      const first = pts[0], last = pts[pts.length - 1];
+      const lead = { x: first.x, y: Math.max(0, first.y - 48) };
+      const tail = { x: last.x, y: Math.min(tr.height, last.y + 56) };
+      const all = [lead].concat(pts, [tail]);
+
+      // Each span leaves and arrives on a vertical tangent, so consecutive
+      // spans meet with matching direction — the joins are invisible and the
+      // whole thing reads as one line rather than stitched arcs.
+      let d = 'M ' + all[0].x + ' ' + all[0].y;
+      const lens = [];
+      for (let i = 1; i < all.length; i++) {
+        const p0 = all[i - 1], p1 = all[i];
+        const bow = (p1.y - p0.y) * 0.5;
+        d += ' C ' + p0.x + ' ' + (p0.y + bow) + ', ' + p1.x + ' ' + (p1.y - bow) + ', ' + p1.x + ' ' + p1.y;
+        probe.setAttribute('d', d);
+        lens.push(probe.getTotalLength());
+      }
+
+      bed.setAttribute('d', d);
+      lit.setAttribute('d', d);
+      pathLen = lens[lens.length - 1];
+      if (!pathLen) return false;
+
+      lit.style.strokeDasharray = pathLen;
+      // lens[i] is the length up to all[i+1]; the badges are all[1..n]
+      marks = steps.map((_, i) => lens[i] / pathLen);
+      return true;
+    }
+
+    function drawFull() {
+      lit.style.strokeDashoffset = 0;
+      head.style.opacity = 0;
+      steps.forEach((step) => step.classList.add('is-lit'));
+    }
+
+    // Progress is worked out in document scroll coordinates, and the finish
+    // line is clamped to the furthest the page can actually scroll.
+    //
+    // That clamp is the whole point. This section is the last thing before the
+    // footer, so "track bottom reaches 40% up the viewport" is a position the
+    // page never reaches — you hit the end of the document with the track
+    // bottom still low on screen. Progress topped out around 0.85 while the
+    // final bulb sits at ~0.97, so the last step could never light no matter
+    // how far you scrolled. Ending at min(ideal, page bottom) guarantees the
+    // light finishes the line.
+    function update() {
+      if (!pathLen) return;
+      const doc = document.documentElement;
+      const vh = window.innerHeight || doc.clientHeight;
+      const y = window.pageYOffset || doc.scrollTop || 0;
+      const rect = track.getBoundingClientRect();
+
+      const top = rect.top + y;                 // track top, document space
+      const startY = top - vh * 0.74;           // top crosses 74% down
+      let endY = top + rect.height - vh * 0.40; // bottom crosses 40% down...
+      const maxY = Math.max(0, (doc.scrollHeight || 0) - vh);
+      if (endY > maxY) endY = maxY;             // ...or as far as the page goes
+
+      // endY <= startY means the section fits on screen whole — light it all.
+      let p = endY > startY ? (y - startY) / (endY - startY) : 1;
+      p = p < 0 ? 0 : p > 1 ? 1 : p;
+
+      lit.style.strokeDashoffset = pathLen * (1 - p);
+
+      if (p <= 0.001 || p >= 0.999) {
+        head.style.opacity = 0;
+      } else {
+        const pt = lit.getPointAtLength(pathLen * p);
+        head.setAttribute('transform', 'translate(' + pt.x + ' ' + pt.y + ')');
+        head.style.opacity = 1;
+      }
+
+      for (let i = 0; i < steps.length; i++) {
+        steps[i].classList.toggle('is-lit', p >= marks[i]);
+      }
+    }
+
+    let queued = false;
+    function onScroll() {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(function () { queued = false; update(); });
+    }
+
+    let scrollBound = false;
+    function apply() {
+      if (reduceMQ.matches) {
+        if (scrollBound) { window.removeEventListener('scroll', onScroll); scrollBound = false; }
+        drawFull();
+      } else if (!scrollBound) {
+        window.addEventListener('scroll', onScroll, { passive: true });
+        scrollBound = true;
+        update();
+      } else {
+        update();
+      }
+    }
+
+    function rebuild() { if (buildPath()) apply(); }
+
+    // scene loops: on screen only
+    const io = 'IntersectionObserver' in window
+      ? new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            entry.target.classList.toggle('is-active', entry.isIntersecting);
+          });
+        }, { rootMargin: '-12% 0px -16% 0px', threshold: 0 })
+      : null;
+
+    const allSteps = Array.from(track.querySelectorAll('[data-step]'));
+
+    // IntersectionObserver only reports on its own schedule, which is a frame
+    // or more after a lane switch — long enough for the reader to see the new
+    // lane sitting dimmed. Settle it synchronously against the same band the
+    // observer uses; the observer then keeps it honest as they scroll.
+    function primeActive() {
+      const vh = window.innerHeight || document.documentElement.clientHeight;
+      steps.forEach(function (s) {
+        const r = s.getBoundingClientRect();
+        s.classList.toggle('is-active', r.bottom > vh * 0.12 && r.top < vh * 0.84);
+      });
+    }
+
+    function collectSteps() {
+      const lane = track.querySelector('.lane:not([hidden])') || track;
+      steps = Array.from(lane.querySelectorAll('[data-step]'));
+      if (io) {
+        io.disconnect();
+        // hidden steps keep whatever state they were left in; clear it so a
+        // lane that comes back does not flash a stale lit bulb
+        allSteps.forEach(function (s) { s.classList.remove('is-active', 'is-lit'); });
+        steps.forEach(function (s) { io.observe(s); });
+        primeActive();
+      } else {
+        steps.forEach(function (s) { s.classList.add('is-active'); });
+      }
+    }
+
+    // customer / barber lanes
+    const lanes = Array.from(track.querySelectorAll('.lane'));
+    const laneButtons = Array.from(document.querySelectorAll('[data-how-toggle] button'));
+
+    function setLane(name) {
+      laneButtons.forEach(function (b) { b.classList.toggle('active', b.dataset.laneBtn === name); });
+      lanes.forEach(function (l) { l.hidden = l.dataset.lane !== name; });
+      collectSteps();
+      rebuild();
+    }
+    laneButtons.forEach(function (b) {
+      b.addEventListener('click', function () { setLane(b.dataset.laneBtn); });
+    });
+
+    collectSteps();
+    rebuild();
+    // fonts change badge metrics, which moves every point on the path
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(rebuild);
+    window.addEventListener('load', rebuild);
+
+    let resizeTimer;
+    window.addEventListener('resize', function () {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(rebuild, 150);
+    });
+
+    if (reduceMQ.addEventListener) reduceMQ.addEventListener('change', apply);
   })();
 </script>
 
