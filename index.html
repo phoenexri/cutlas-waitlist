@@ -433,6 +433,8 @@
   /* ---- footer ---- */
   footer { border-top: 1px solid var(--hairline); margin-top: 40px; padding: 28px 0 48px; }
   footer nav { display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: 0.85rem; margin-bottom: 14px; }
+  footer .support { font-size: 0.85rem; color: var(--text-dim); margin-bottom: 10px; }
+  footer .support strong { color: var(--text); }
   footer .fine { font-size: 0.75rem; color: var(--text-faint); }
 
   /* page-load reveal — one orchestrated moment, not scattered effects */
@@ -1015,6 +1017,15 @@
       <a href="delete-account.html">Delete Account</a>
       <a href="mailto:cutlased@gmail.com">Contact</a>
     </nav>
+    <!-- Support line, spelled out rather than hidden behind a "Contact" link.
+         App Review opens the Support URL and looks for a way to get help; a
+         mailto labelled "Contact" is easy to miss and reads as a footer link
+         rather than a support channel. -->
+    <p class="support">
+      <strong>Support:</strong>
+      <a href="mailto:cutlased@gmail.com">cutlased@gmail.com</a>
+      &middot; We reply within 1 business day.
+    </p>
     <p class="fine">&copy; 2026 Cutlas &middot; Texas, USA &middot; 18+ only</p>
   </div>
 </footer>
