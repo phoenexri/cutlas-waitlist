@@ -4,19 +4,19 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Cutlas | Independent Barbers Near You</title>
-<meta name="description" content="Cutlas is a mobile app for finding independent and home-based barbers near you. Launching soon in Collin County, TX. Join the waitlist.">
+<meta name="description" content="Cutlas is a mobile app for finding independent and home-based barbers near you. Now on the App Store. Serving Collin County, TX.">
 
 <!-- Link-preview card (shown when this URL is shared in texts/DMs).
      og:image and og:url must be ABSOLUTE URLs — replace YOUR-DOMAIN below
      with the real hosted domain (see deploy steps). -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="Cutlas | Independent Barbers Near You">
-<meta property="og:description" content="Browse real portfolios, book a slot, get a great cut. Launching soon in Collin County, TX. Join the waitlist.">
+<meta property="og:description" content="Browse real portfolios, book a slot, get a great cut. Download Cutlas on the App Store.">
 <meta property="og:url" content="https://cutlas.netlify.app/">
 <meta property="og:image" content="https://cutlas.netlify.app/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Cutlas | Independent Barbers Near You">
-<meta name="twitter:description" content="Browse real portfolios, book a slot, get a great cut. Launching soon in Collin County, TX. Join the waitlist.">
+<meta name="twitter:description" content="Browse real portfolios, book a slot, get a great cut. Download Cutlas on the App Store.">
 <meta name="twitter:image" content="https://cutlas.netlify.app/og.png">
 
 <!-- The app's real typefaces (see src/studio/tokens.ts) -->
@@ -134,6 +134,44 @@
   }
   .field input:focus { outline: none; border-color: var(--amber); box-shadow: 0 0 0 3px rgba(212,168,67,0.18); }
   .hint { font-size: 0.75rem; color: var(--text-faint); margin-top: 4px; }
+
+  /* ---- App Store download card ---- */
+  /* Apple's own black-pill treatment, rebuilt in CSS rather than shipping their
+     badge PNG: it stays crisp, needs no image request, and adapts to the card. */
+  .store-btn {
+    display: flex; align-items: center; gap: 12px;
+    width: 100%; box-sizing: border-box;
+    padding: 12px 18px; margin-top: 6px;
+    text-decoration: none; color: #f5f0e8;
+    background: #0a0907; border: 1px solid rgba(245,240,232,0.28);
+    border-radius: 13px;
+    transition: transform 0.12s ease, border-color 0.12s ease;
+  }
+  .store-btn:hover { border-color: rgba(212,168,67,0.6); }
+  .store-btn:active { transform: scale(0.985); }
+  .store-apple { width: 26px; height: 26px; flex: none; }
+  .store-copy { display: flex; flex-direction: column; line-height: 1.15; text-align: left; }
+  .store-small { font-size: 0.66rem; letter-spacing: 0.01em; }
+  .store-big { font-family: var(--ff-display); font-weight: 700; font-size: 1.18rem; }
+
+  .qr-row { display: flex; align-items: center; gap: 16px; margin-top: 18px;
+    padding-top: 18px; border-top: 1px solid var(--hairline); }
+  /* White plate is not decoration — a QR needs a light quiet zone to scan
+     reliably against this dark page. */
+  .qr-plate { flex: none; width: 104px; height: 104px; padding: 7px;
+    background: #ffffff; border-radius: 12px; }
+  .qr-plate svg { display: block; width: 100%; height: 100%; }
+  .qr-copy { min-width: 0; }
+  .qr-lead { font-family: var(--ff-body); font-weight: 600; font-size: 0.95rem; color: var(--text); margin: 0; }
+  .qr-sub { font-size: 0.78rem; color: var(--text-dim); margin: 5px 0 0; line-height: 1.45; }
+
+  /* On a phone the QR is redundant — you are already holding the device — so it
+     steps back and the button carries the action. */
+  @media (max-width: 560px) {
+    .qr-row { gap: 13px; }
+    .qr-plate { width: 84px; height: 84px; }
+    .qr-sub { font-size: 0.74rem; }
+  }
 
   .check { display: flex; gap: 10px; align-items: flex-start; margin: 12px 0; font-size: 0.82rem; color: var(--text-dim); }
   .check input { width: 17px; height: 17px; margin-top: 2px; flex: none; accent-color: var(--amber); }
@@ -256,7 +294,7 @@
   .acct-badge { font-family: var(--ff-mono); font-weight: 600; font-size: 0.56rem; letter-spacing: 0.08em; text-transform: uppercase;
                 color: var(--amber-bright); border: 1px solid rgba(212,168,67,0.4); border-radius: 100px; padding: 3px 8px; }
 
-  /* "available at launch" toast */
+  /* "download the app" toast */
   .phone-toast {
     position: absolute; left: 50%; bottom: 76px; transform: translate(-50%, 12px);
     background: #2a2118; color: var(--text); border: 1px solid rgba(212,168,67,0.45);
@@ -579,45 +617,44 @@
 <header class="hero">
   <div class="wrap hero-grid">
     <div class="hero-copy">
-      <p class="eyebrow reveal">Launching Soon</p>
+      <p class="eyebrow reveal">Now on the App Store</p>
       <h1 class="display wordmark reveal">cutlas</h1>
       <p class="pitch reveal">The barbers worth finding don't have a shopfront. Browse independent barbers near you, see their real work, and book a chair before anyone else.</p>
 
-      <div class="card reveal" id="signup-card">
-        <form id="waitlist-form" novalidate>
-          <h2>Join the Waitlist</h2>
-          <p class="sub">Your waitlist account is your Cutlas login on launch day (no extra signup needed).</p>
+      <div class="card reveal" id="download-card">
+        <h2>Download on the App&nbsp;Store</h2>
+        <p class="sub">Cutlas is live. Find independent barbers near you, see their real work, and book a chair.</p>
 
-          <div class="field">
-            <label for="email">Email</label>
-            <input id="email" name="email" type="email" autocomplete="email" required inputmode="email">
+        <a class="store-btn" href="https://apps.apple.com/us/app/cutlas/id6800887790"
+           target="_blank" rel="noopener"
+           aria-label="Download Cutlas on the App Store">
+          <!-- Apple mark, inline so there is no external asset to load or block. -->
+          <svg class="store-apple" viewBox="0 0 384 512" aria-hidden="true">
+            <path fill="currentColor" d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/>
+          </svg>
+          <span class="store-copy">
+            <span class="store-small">Download on the</span>
+            <span class="store-big">App Store</span>
+          </span>
+        </a>
+
+        <div class="qr-row">
+          <div class="qr-plate">
+            <!-- Generated from the App Store URL at error-correction level H (~30%
+                 recovery), so it still scans at an angle, on a phone screen, or in
+                 print. Inline SVG: crisp at any size, no image request. -->
+            <svg viewBox="0 0 49 49" role="img" aria-label="QR code linking to Cutlas on the App Store">
+              <rect width="49" height="49" fill="#ffffff"/>
+              <path d="M4 4h7v1h-7zM12 4h5v1h-5zM18 4h1v1h-1zM20 4h7v1h-7zM28 4h3v1h-3zM34 4h3v1h-3zM38 4h7v1h-7zM4 5h1v1h-1zM10 5h1v1h-1zM12 5h2v1h-2zM16 5h1v1h-1zM18 5h2v1h-2zM24 5h1v1h-1zM27 5h5v1h-5zM34 5h1v1h-1zM36 5h1v1h-1zM38 5h1v1h-1zM44 5h1v1h-1zM4 6h1v1h-1zM6 6h3v1h-3zM10 6h1v1h-1zM12 6h1v1h-1zM16 6h1v1h-1zM19 6h2v1h-2zM22 6h1v1h-1zM27 6h1v1h-1zM29 6h1v1h-1zM31 6h1v1h-1zM38 6h1v1h-1zM40 6h3v1h-3zM44 6h1v1h-1zM4 7h1v1h-1zM6 7h3v1h-3zM10 7h1v1h-1zM13 7h1v1h-1zM16 7h1v1h-1zM19 7h3v1h-3zM23 7h5v1h-5zM30 7h3v1h-3zM34 7h3v1h-3zM38 7h1v1h-1zM40 7h3v1h-3zM44 7h1v1h-1zM4 8h1v1h-1zM6 8h3v1h-3zM10 8h1v1h-1zM18 8h6v1h-6zM26 8h2v1h-2zM32 8h1v1h-1zM35 8h2v1h-2zM38 8h1v1h-1zM40 8h3v1h-3zM44 8h1v1h-1zM4 9h1v1h-1zM10 9h1v1h-1zM12 9h1v1h-1zM14 9h3v1h-3zM21 9h4v1h-4zM27 9h5v1h-5zM34 9h1v1h-1zM36 9h1v1h-1zM38 9h1v1h-1zM44 9h1v1h-1zM4 10h7v1h-7zM12 10h1v1h-1zM14 10h1v1h-1zM16 10h1v1h-1zM18 10h1v1h-1zM20 10h1v1h-1zM22 10h1v1h-1zM24 10h1v1h-1zM26 10h1v1h-1zM28 10h1v1h-1zM30 10h1v1h-1zM32 10h1v1h-1zM34 10h1v1h-1zM36 10h1v1h-1zM38 10h7v1h-7zM12 11h2v1h-2zM15 11h6v1h-6zM22 11h6v1h-6zM29 11h1v1h-1zM31 11h1v1h-1zM35 11h2v1h-2zM6 12h3v1h-3zM10 12h1v1h-1zM12 12h1v1h-1zM16 12h1v1h-1zM18 12h1v1h-1zM23 12h1v1h-1zM27 12h5v1h-5zM33 12h1v1h-1zM35 12h1v1h-1zM37 12h3v1h-3zM42 12h3v1h-3zM4 13h1v1h-1zM6 13h4v1h-4zM12 13h1v1h-1zM14 13h1v1h-1zM17 13h1v1h-1zM20 13h2v1h-2zM23 13h2v1h-2zM27 13h2v1h-2zM30 13h1v1h-1zM32 13h1v1h-1zM35 13h6v1h-6zM42 13h1v1h-1zM44 13h1v1h-1zM5 14h1v1h-1zM7 14h2v1h-2zM10 14h7v1h-7zM20 14h2v1h-2zM23 14h1v1h-1zM26 14h2v1h-2zM29 14h3v1h-3zM36 14h2v1h-2zM40 14h1v1h-1zM43 14h1v1h-1zM4 15h2v1h-2zM7 15h3v1h-3zM11 15h1v1h-1zM16 15h1v1h-1zM19 15h1v1h-1zM22 15h1v1h-1zM25 15h2v1h-2zM28 15h1v1h-1zM30 15h1v1h-1zM32 15h1v1h-1zM35 15h3v1h-3zM39 15h1v1h-1zM41 15h1v1h-1zM43 15h1v1h-1zM5 16h1v1h-1zM7 16h2v1h-2zM10 16h4v1h-4zM16 16h1v1h-1zM18 16h1v1h-1zM20 16h1v1h-1zM22 16h1v1h-1zM24 16h2v1h-2zM28 16h3v1h-3zM32 16h2v1h-2zM35 16h1v1h-1zM37 16h1v1h-1zM41 16h4v1h-4zM5 17h1v1h-1zM8 17h2v1h-2zM14 17h1v1h-1zM16 17h1v1h-1zM19 17h1v1h-1zM21 17h1v1h-1zM24 17h2v1h-2zM29 17h1v1h-1zM31 17h1v1h-1zM36 17h2v1h-2zM39 17h2v1h-2zM43 17h2v1h-2zM4 18h2v1h-2zM7 18h1v1h-1zM9 18h7v1h-7zM18 18h3v1h-3zM22 18h2v1h-2zM27 18h1v1h-1zM29 18h1v1h-1zM31 18h2v1h-2zM35 18h1v1h-1zM37 18h1v1h-1zM4 19h2v1h-2zM7 19h2v1h-2zM11 19h1v1h-1zM13 19h1v1h-1zM15 19h1v1h-1zM21 19h1v1h-1zM23 19h2v1h-2zM28 19h2v1h-2zM31 19h1v1h-1zM34 19h3v1h-3zM38 19h2v1h-2zM41 19h1v1h-1zM44 19h1v1h-1zM4 20h3v1h-3zM8 20h3v1h-3zM13 20h4v1h-4zM19 20h1v1h-1zM21 20h1v1h-1zM24 20h2v1h-2zM27 20h2v1h-2zM30 20h6v1h-6zM37 20h1v1h-1zM39 20h1v1h-1zM42 20h1v1h-1zM44 20h1v1h-1zM4 21h1v1h-1zM6 21h1v1h-1zM11 21h3v1h-3zM19 21h1v1h-1zM22 21h1v1h-1zM27 21h3v1h-3zM33 21h1v1h-1zM35 21h2v1h-2zM38 21h3v1h-3zM44 21h1v1h-1zM4 22h5v1h-5zM10 22h1v1h-1zM13 22h1v1h-1zM17 22h2v1h-2zM20 22h1v1h-1zM23 22h2v1h-2zM26 22h1v1h-1zM28 22h4v1h-4zM33 22h1v1h-1zM36 22h2v1h-2zM40 22h3v1h-3zM6 23h3v1h-3zM13 23h3v1h-3zM18 23h3v1h-3zM24 23h1v1h-1zM26 23h1v1h-1zM28 23h4v1h-4zM33 23h4v1h-4zM38 23h1v1h-1zM40 23h2v1h-2zM43 23h1v1h-1zM6 24h6v1h-6zM13 24h2v1h-2zM16 24h1v1h-1zM19 24h5v1h-5zM26 24h3v1h-3zM31 24h2v1h-2zM35 24h1v1h-1zM39 24h1v1h-1zM41 24h3v1h-3zM4 25h1v1h-1zM6 25h2v1h-2zM9 25h1v1h-1zM11 25h4v1h-4zM17 25h2v1h-2zM20 25h1v1h-1zM25 25h3v1h-3zM29 25h1v1h-1zM32 25h1v1h-1zM34 25h2v1h-2zM37 25h2v1h-2zM40 25h2v1h-2zM43 25h2v1h-2zM5 26h1v1h-1zM9 26h3v1h-3zM13 26h2v1h-2zM19 26h1v1h-1zM21 26h2v1h-2zM24 26h4v1h-4zM30 26h3v1h-3zM34 26h1v1h-1zM36 26h2v1h-2zM39 26h4v1h-4zM5 27h2v1h-2zM8 27h1v1h-1zM13 27h2v1h-2zM16 27h9v1h-9zM26 27h2v1h-2zM30 27h2v1h-2zM34 27h1v1h-1zM36 27h1v1h-1zM4 28h4v1h-4zM9 28h5v1h-5zM15 28h1v1h-1zM17 28h2v1h-2zM20 28h1v1h-1zM22 28h2v1h-2zM29 28h1v1h-1zM31 28h1v1h-1zM33 28h1v1h-1zM35 28h1v1h-1zM41 28h3v1h-3zM4 29h1v1h-1zM6 29h1v1h-1zM9 29h1v1h-1zM11 29h1v1h-1zM15 29h1v1h-1zM17 29h1v1h-1zM19 29h2v1h-2zM22 29h2v1h-2zM27 29h2v1h-2zM35 29h1v1h-1zM38 29h4v1h-4zM44 29h1v1h-1zM4 30h2v1h-2zM8 30h3v1h-3zM12 30h1v1h-1zM15 30h1v1h-1zM17 30h1v1h-1zM20 30h5v1h-5zM31 30h4v1h-4zM36 30h1v1h-1zM38 30h1v1h-1zM40 30h1v1h-1zM43 30h1v1h-1zM4 31h2v1h-2zM13 31h1v1h-1zM18 31h3v1h-3zM24 31h2v1h-2zM27 31h2v1h-2zM30 31h1v1h-1zM35 31h7v1h-7zM43 31h1v1h-1zM4 32h1v1h-1zM6 32h13v1h-13zM22 32h4v1h-4zM30 32h2v1h-2zM33 32h4v1h-4zM38 32h1v1h-1zM41 32h4v1h-4zM4 33h2v1h-2zM8 33h1v1h-1zM12 33h2v1h-2zM16 33h1v1h-1zM18 33h2v1h-2zM21 33h2v1h-2zM24 33h1v1h-1zM26 33h3v1h-3zM31 33h2v1h-2zM34 33h1v1h-1zM37 33h1v1h-1zM40 33h5v1h-5zM4 34h1v1h-1zM6 34h1v1h-1zM9 34h4v1h-4zM15 34h1v1h-1zM18 34h1v1h-1zM20 34h4v1h-4zM25 34h3v1h-3zM29 34h2v1h-2zM33 34h1v1h-1zM36 34h5v1h-5zM43 34h1v1h-1zM4 35h1v1h-1zM15 35h2v1h-2zM18 35h1v1h-1zM20 35h2v1h-2zM24 35h2v1h-2zM29 35h2v1h-2zM32 35h1v1h-1zM34 35h1v1h-1zM37 35h5v1h-5zM43 35h1v1h-1zM4 36h1v1h-1zM6 36h1v1h-1zM8 36h3v1h-3zM14 36h1v1h-1zM18 36h1v1h-1zM20 36h1v1h-1zM23 36h1v1h-1zM25 36h1v1h-1zM27 36h1v1h-1zM30 36h1v1h-1zM32 36h3v1h-3zM36 36h5v1h-5zM42 36h2v1h-2zM12 37h1v1h-1zM14 37h1v1h-1zM21 37h1v1h-1zM25 37h1v1h-1zM27 37h1v1h-1zM29 37h1v1h-1zM36 37h1v1h-1zM40 37h2v1h-2zM44 37h1v1h-1zM4 38h7v1h-7zM14 38h1v1h-1zM16 38h1v1h-1zM18 38h1v1h-1zM20 38h5v1h-5zM29 38h1v1h-1zM31 38h1v1h-1zM34 38h3v1h-3zM38 38h1v1h-1zM40 38h2v1h-2zM4 39h1v1h-1zM10 39h1v1h-1zM17 39h5v1h-5zM23 39h1v1h-1zM26 39h3v1h-3zM30 39h2v1h-2zM36 39h1v1h-1zM40 39h2v1h-2zM4 40h1v1h-1zM6 40h3v1h-3zM10 40h1v1h-1zM12 40h3v1h-3zM16 40h1v1h-1zM21 40h2v1h-2zM24 40h1v1h-1zM26 40h1v1h-1zM28 40h1v1h-1zM30 40h1v1h-1zM34 40h1v1h-1zM36 40h8v1h-8zM4 41h1v1h-1zM6 41h3v1h-3zM10 41h1v1h-1zM12 41h1v1h-1zM15 41h2v1h-2zM19 41h1v1h-1zM23 41h1v1h-1zM25 41h1v1h-1zM27 41h1v1h-1zM30 41h1v1h-1zM32 41h1v1h-1zM35 41h3v1h-3zM39 41h1v1h-1zM41 41h1v1h-1zM44 41h1v1h-1zM4 42h1v1h-1zM6 42h3v1h-3zM10 42h1v1h-1zM12 42h4v1h-4zM19 42h1v1h-1zM23 42h2v1h-2zM27 42h2v1h-2zM30 42h3v1h-3zM34 42h1v1h-1zM37 42h7v1h-7zM4 43h1v1h-1zM10 43h1v1h-1zM13 43h3v1h-3zM18 43h1v1h-1zM21 43h1v1h-1zM26 43h1v1h-1zM30 43h1v1h-1zM32 43h1v1h-1zM34 43h1v1h-1zM36 43h1v1h-1zM38 43h1v1h-1zM40 43h1v1h-1zM43 43h1v1h-1zM4 44h7v1h-7zM13 44h1v1h-1zM15 44h1v1h-1zM21 44h1v1h-1zM24 44h1v1h-1zM27 44h1v1h-1zM29 44h2v1h-2zM32 44h2v1h-2zM35 44h1v1h-1zM38 44h5v1h-5z" fill="#0a0907"/>
+            </svg>
           </div>
-          <div class="field">
-            <label for="password">Password</label>
-            <input id="password" name="password" type="password" autocomplete="new-password" required minlength="6">
-            <p class="hint">At least 6 characters. You'll use this to log into the app.</p>
+          <div class="qr-copy">
+            <p class="qr-lead">Scan to download</p>
+            <p class="qr-sub">Point your camera at the code, or tap the button above on your phone.</p>
           </div>
-
-          <label class="check">
-            <input id="agree" type="checkbox" required>
-            <span>I'm 18 or older and agree to the <a href="terms.html">Terms of Service</a>, <a href="privacy.html">Privacy Policy</a>, and <a href="waitlist-terms.html">Waitlist Terms</a>.</span>
-          </label>
-          <label class="check">
-            <input id="marketing" type="checkbox">
-            <span>Email me updates and the Cutlas newsletter.</span>
-          </label>
-
-          <button class="btn" id="submit-btn" type="submit">Join the Waitlist</button>
-          <div class="msg error" id="form-error" hidden role="alert"></div>
-          <p class="hint" style="margin-top:10px">Already signed up? You're set. We'll email you at launch.</p>
-        </form>
-
-        <div class="success" id="success-panel" hidden>
-          <h2 class="display" style="font-size:1.4rem">You're on the List.</h2>
-          <p>Check your inbox for a confirmation link to lock in your spot. It can land in spam, so look there too.</p>
-          <p>If that email was already signed up, no confirmation email is coming. You were set the first time.</p>
-          <p>See you on launch day.</p>
         </div>
+
+        <p class="hint" style="margin-top:14px">Free to download. Barbers: your first 60 days are free.</p>
       </div>
     </div>
 
@@ -879,7 +916,7 @@
           </button>
         </nav>
       </div>
-      <p class="p-caption">Illustrative preview &middot; switch sides and tap around. Real listings at launch.</p>
+      <p class="p-caption">Illustrative preview &middot; switch sides and tap around. Real listings are in the app.</p>
     </div>
   </div>
 </header>
@@ -1004,7 +1041,7 @@
       </div><!-- /barber lane -->
 
     </div>
-    <p class="p-caption how-caption">Illustrative preview &middot; real listings at launch.</p>
+    <p class="p-caption how-caption">Illustrative preview &middot; real listings are in the app.</p>
   </div>
 </section>
 
@@ -1034,7 +1071,7 @@
   // ============================================================
   // Interactive app preview — illustrative only. Navigation and browsing
   // work; every "real" action (book, unlock contact, sign in) is gated with
-  // an "available at launch" toast. No network calls, no real functionality.
+  // a "download the app" toast. No network calls, no real functionality.
   // ============================================================
   (function () {
     const col = document.querySelector('.phone-col');
@@ -1094,9 +1131,9 @@
     phone.querySelectorAll('[data-back]').forEach((b) =>
       b.addEventListener('click', () => showScreen('discover')));
 
-    // gated actions never do anything real — they nudge to the waitlist
+    // gated actions never do anything real — they nudge to the App Store
     phone.querySelectorAll('[data-lock]').forEach((b) =>
-      b.addEventListener('click', () => flash('Available at launch. Join the waitlist above ↑')));
+      b.addEventListener('click', () => flash('This is a preview — download the app to book for real ↑')));
   })();
 
   // ============================================================
@@ -1322,111 +1359,6 @@
 
     if (reduceMQ.addEventListener) reduceMQ.addEventListener('change', apply);
   })();
-</script>
-
-<script type="module">
-  // ============================================================
-  // CONFIG — paste your values here before deploying.
-  // Both are PUBLIC values (the same ones the mobile app ships with):
-  //   SUPABASE_URL      → Supabase dashboard → Settings → API → Project URL
-  //   SUPABASE_ANON_KEY → Supabase dashboard → Settings → API → anon public key
-  // ============================================================
-  const SUPABASE_URL = 'https://ctmnvipawzohxmcdcnzh.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN0bW52aXBhd3pvaHhtY2RjbnpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg5ODczMzksImV4cCI6MjA5NDU2MzMzOX0.ZhnQe9R_94dsXtT07adwhGU8AFN0i579haO9LbYeZ8U';
-  // ============================================================
-  // PREVIEW_MODE — set to TRUE to preview the page without creating real
-  // accounts: the form validates and shows the success panel, but never
-  // touches Supabase (no signups, no emails). Set it back to FALSE to go
-  // live and take real waitlist signups.
-  const PREVIEW_MODE = false;
-  // ============================================================
-
-  import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
-
-  const form = document.getElementById('waitlist-form');
-  const btn = document.getElementById('submit-btn');
-  const errorBox = document.getElementById('form-error');
-  const successPanel = document.getElementById('success-panel');
-
-  const showError = (text) => { errorBox.textContent = text; errorBox.hidden = false; };
-  const clearError = () => { errorBox.hidden = true; };
-
-  // Turn Supabase/network errors into human messages. Never reveal whether an
-  // email is already registered.
-  const humanize = (err) => {
-    const m = (err?.message || '').toLowerCase();
-    if (m.includes('already registered')) return null; // treat as success — see below
-    if (m.includes('password')) return 'That password is too short. Use at least 6 characters.';
-    if (m.includes('invalid') && m.includes('email')) return 'That email address doesn’t look right. Double-check it.';
-    if (m.includes('rate limit') || m.includes('too many')) return 'Too many attempts right now. Wait a minute and try again.';
-    if (m.includes('fetch') || m.includes('network')) return 'Couldn’t reach the server. Check your connection and try again.';
-    return 'Something went wrong on our end. Try again in a moment, or email cutlased@gmail.com.';
-  };
-
-  const showSuccess = () => {
-    form.hidden = true;
-    successPanel.hidden = false;
-    successPanel.querySelector('h2').focus?.();
-  };
-
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    clearError();
-
-    const email = document.getElementById('email').value.trim();
-    const password = document.getElementById('password').value;
-    const agreed = document.getElementById('agree').checked;
-    const marketing = document.getElementById('marketing').checked;
-
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showError('Enter a valid email address.');
-    if (!password || password.length < 6) return showError('Your password needs at least 6 characters.');
-    if (!agreed) return showError('You need to accept the Terms and Privacy Policy to join.');
-
-    btn.disabled = true;
-    const originalLabel = btn.textContent;
-    btn.innerHTML = '<span class="spinner" aria-hidden="true"></span>Joining…';
-
-    // Preview mode: skip the real signup entirely and just show the success
-    // panel so the page can be demoed without creating accounts or sending mail.
-    if (PREVIEW_MODE) {
-      window.setTimeout(() => {
-        btn.disabled = false;
-        btn.textContent = originalLabel;
-        showSuccess();
-      }, 600);
-      return;
-    }
-
-    try {
-      const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { auth: { persistSession: false } });
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          // The DB trigger (handle_waitlist_signup) reads this metadata and
-          // records the waitlist row server-side. This page never writes tables.
-          data: { waitlist: true, marketing_opt_in: marketing, signup_source: 'waitlist_web' },
-          emailRedirectTo: new URL('confirmed.html', window.location.href).href,
-        },
-      });
-
-      if (error) {
-        const msg = humanize(error);
-        if (msg === null) return showSuccess(); // existing email: same panel, no info leak
-        return showError(msg);
-      }
-
-      // With email confirmations ON, Supabase deliberately returns an ambiguous
-      // success for already-registered emails (data.user.identities is empty).
-      // Either way the right response is the same panel — it explains both cases.
-      showSuccess();
-    } catch (err) {
-      showError(humanize(err));
-    } finally {
-      btn.disabled = false;
-      btn.textContent = originalLabel;
-    }
-  });
 </script>
 </body>
 </html>
