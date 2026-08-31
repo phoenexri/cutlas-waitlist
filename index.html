@@ -1377,6 +1377,36 @@ src="https://www.facebook.com/tr?id=2460523177764023&ev=PageView&noscript=1"
 
     if (reduceMQ.addEventListener) reduceMQ.addEventListener('change', apply);
   })();
+
+  // ============================================================
+  // Meta Pixel — StoreClick
+  //
+  // PageView says someone loaded the page. This says someone actually
+  // tried to get the app, which is the only thing on this page worth
+  // optimising ads toward.
+  //
+  // The anchor keeps its normal behaviour on purpose: no preventDefault,
+  // no artificial delay before navigating. fbq fires its beacon
+  // synchronously and it completes on its own; holding the click back to
+  // "guarantee" delivery is what breaks the App Store handoff on iOS
+  // Safari. If fbq is missing — blocked, offline, still loading — the
+  // button is left completely alone.
+  //
+  // Note: QR scans bypass this entirely. They open the store URL directly
+  // and never touch the page, so StoreClick undercounts by however many
+  // people scan instead of tap.
+  // ============================================================
+  (function () {
+    const storeLinks = document.querySelectorAll('a[href*="apps.apple.com"]');
+    if (!storeLinks.length) return;
+
+    storeLinks.forEach(function (link) {
+      link.addEventListener('click', function () {
+        if (typeof window.fbq !== 'function') return;
+        window.fbq('trackCustom', 'StoreClick');
+      });
+    });
+  })();
 </script>
 </body>
 </html>
