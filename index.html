@@ -6,18 +6,19 @@
 <title>Cutlas | Independent Barbers Near You</title>
 <meta name="description" content="Cutlas is a mobile app for finding independent and home-based barbers near you. Now on the App Store. Serving Collin County, TX.">
 
-<!-- Link-preview card (shown when this URL is shared in texts/DMs).
-     og:image and og:url must be ABSOLUTE URLs — replace YOUR-DOMAIN below
-     with the real hosted domain (see deploy steps). -->
+<!-- Link-preview card (shown when this URL is shared in texts/DMs, and read by
+     Meta when it reviews an ad that links here). og:image and og:url must be
+     ABSOLUTE URLs on the real domain. The site is served from cutlas.app
+     (Cloudflare Pages); these once pointed at an old netlify.app host. -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="Cutlas | Independent Barbers Near You">
 <meta property="og:description" content="Browse real portfolios, book a slot, get a great cut. Download Cutlas on the App Store.">
-<meta property="og:url" content="https://cutlas.netlify.app/">
-<meta property="og:image" content="https://cutlas.netlify.app/og.png">
+<meta property="og:url" content="https://cutlas.app/">
+<meta property="og:image" content="https://cutlas.app/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Cutlas | Independent Barbers Near You">
 <meta name="twitter:description" content="Browse real portfolios, book a slot, get a great cut. Download Cutlas on the App Store.">
-<meta name="twitter:image" content="https://cutlas.netlify.app/og.png">
+<meta name="twitter:image" content="https://cutlas.app/og.png">
 
 <!-- The app's real typefaces (see src/studio/tokens.ts) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -248,6 +249,19 @@
   .p-chip.dim { color: #9a938a; border-color: rgba(245,240,232,0.16); }
   .p-chip.ok { color: #86c58a; border-color: rgba(134,197,138,0.4); }
   .p-hint { text-align: center; font-size: 0.72rem; color: var(--text-faint); margin-top: 6px; }
+
+  /* "Example UI" label. Meta rejected an ad for this page because the mockup
+     read as a live directory. It is a cream label, not amber, on purpose: amber
+     is the app's own toast/chip language, and this must read as a sticker ON
+     the mockup, never as part of the app. Keep it loud, keep it inside the frame,
+     and never animate it — the scene loops must not be able to hide it. */
+  .p-disclaimer, .sc-disclaimer {
+    background: #f5f0e8; color: #0a0907; text-align: center;
+    font-family: var(--ff-mono); font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.08em; border-radius: 8px;
+  }
+  .p-disclaimer { margin: 0 16px 10px; padding: 7px 10px; font-size: 0.64rem; }
+  .sc-disclaimer { display: inline-block; margin-bottom: 10px; padding: 4px 9px; font-size: 0.58rem; }
 
   /* profile */
   .p-back { font: inherit; font-size: 0.82rem; color: var(--amber); background: none; border: none;
@@ -672,7 +686,7 @@ src="https://www.facebook.com/tr?id=2460523177764023&ev=PageView&noscript=1"
           </div>
         </div>
 
-        <p class="hint" style="margin-top:14px">Free to download. Barbers: your first 60 days are free.</p>
+        <p class="hint" style="margin-top:14px">Free to download. Barbers: 60 days free, then $9/month or $79/year. Card required to start, renews automatically, cancel anytime. Cancel before the trial ends and you are not charged.</p>
       </div>
     </div>
 
@@ -691,6 +705,9 @@ src="https://www.facebook.com/tr?id=2460523177764023&ev=PageView&noscript=1"
       </div>
       <div class="phone" role="group" aria-label="Interactive Cutlas app preview">
         <div class="notch"></div>
+        <!-- Pinned above the scrolling viewport: visible on every screen, in both
+             customer and barber mode. The caption under the phone is not enough. -->
+        <p class="p-disclaimer" role="note">Example UI &ndash; not real listings</p>
         <div class="phone-viewport">
 
           <!-- Discover -->
@@ -698,34 +715,29 @@ src="https://www.facebook.com/tr?id=2460523177764023&ev=PageView&noscript=1"
             <p class="p-eyebrow">Nearby &middot; Sorted by Distance</p>
             <h3>Discover</h3>
             <button type="button" class="p-card featured" data-open-profile
-                    data-initials="fl" data-name="Fade Lab" data-meta="0.8 mi &middot; $25/cut &middot; Open Sat"
-                    data-rating="4.9" data-reviews="126">
-              <span class="p-avatar">fl</span>
+                    data-initials="a" data-name="Example Barber A" data-meta="Open Sat">
+              <span class="p-avatar">a</span>
               <span class="p-body">
-                <span class="p-name">Fade Lab</span>
-                <span class="p-meta">0.8 mi &middot; $25/cut &middot; Open Sat</span>
+                <span class="p-name">Example Barber A</span>
+                <span class="p-meta">Open Sat</span>
               </span>
               <span class="p-chip">Featured</span>
             </button>
             <button type="button" class="p-card" data-open-profile
-                    data-initials="tc" data-avatar="alt" data-name="Taper City" data-meta="1.4 mi &middot; $30/cut &middot; Evenings"
-                    data-rating="4.7" data-reviews="88">
-              <span class="p-avatar alt">tc</span>
+                    data-initials="b" data-avatar="alt" data-name="Example Barber B" data-meta="Evenings">
+              <span class="p-avatar alt">b</span>
               <span class="p-body">
-                <span class="p-name">Taper City</span>
-                <span class="p-meta">1.4 mi &middot; $30/cut &middot; Evenings</span>
+                <span class="p-name">Example Barber B</span>
+                <span class="p-meta">Evenings</span>
               </span>
-              <span class="p-chip dim">1.4 mi</span>
             </button>
             <button type="button" class="p-card" data-open-profile
-                    data-initials="nb" data-name="Northside Blends" data-meta="2.1 mi &middot; $22/cut"
-                    data-rating="4.8" data-reviews="54">
-              <span class="p-avatar">nb</span>
+                    data-initials="c" data-name="Example Barber C" data-meta="Weekends">
+              <span class="p-avatar">c</span>
               <span class="p-body">
-                <span class="p-name">Northside Blends</span>
-                <span class="p-meta">2.1 mi &middot; $22/cut</span>
+                <span class="p-name">Example Barber C</span>
+                <span class="p-meta">Weekends</span>
               </span>
-              <span class="p-chip dim">2.1 mi</span>
             </button>
             <p class="p-hint">Tap a barber to view their profile</p>
           </section>
@@ -734,13 +746,11 @@ src="https://www.facebook.com/tr?id=2460523177764023&ev=PageView&noscript=1"
           <section class="phone-screen" data-screen="profile" hidden>
             <button type="button" class="p-back" data-back>&larr; Discover</button>
             <div class="prof-head">
-              <span class="p-avatar lg" data-prof-avatar>fl</span>
+              <span class="p-avatar lg" data-prof-avatar>a</span>
               <div>
-                <p class="prof-name" data-prof-name>Fade Lab</p>
-                <p class="prof-rating"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
-                  <span data-prof-rating>4.9</span>
-                  <span class="prof-dim">(<span data-prof-reviews>126</span>)</span></p>
-                <p class="p-meta" data-prof-meta>0.8 mi &middot; $25/cut</p>
+                <p class="prof-name" data-prof-name>Example Barber A</p>
+                <p class="prof-rating"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span></p>
+                <p class="p-meta" data-prof-meta>Open Sat</p>
               </div>
             </div>
             <p class="prof-label">Portfolio</p>
@@ -759,7 +769,7 @@ src="https://www.facebook.com/tr?id=2460523177764023&ev=PageView&noscript=1"
             <div class="prof-review">
               <p class="stars sm">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
               <p class="rev-text">"Cleanest fade I've had in years. Booked my next cut on the spot."</p>
-              <p class="rev-by">Marcus D.</p>
+              <p class="rev-by">Example Customer A</p>
             </div>
           </section>
 
@@ -837,18 +847,18 @@ src="https://www.facebook.com/tr?id=2460523177764023&ev=PageView&noscript=1"
           <section class="phone-screen" data-screen="appointments" data-mode="barber" hidden>
             <h3>Bookings</h3>
             <div class="b-row">
-              <span class="p-avatar alt">md</span>
-              <span class="p-body"><span class="p-name">Marcus D.</span><span class="p-meta">Sat &middot; 2:00 PM</span></span>
+              <span class="p-avatar alt">a</span>
+              <span class="p-body"><span class="p-name">Example Customer A</span><span class="p-meta">Sat &middot; 2:00 PM</span></span>
               <span class="p-chip ok">Confirmed</span>
             </div>
             <div class="b-row">
-              <span class="p-avatar alt">jp</span>
-              <span class="p-body"><span class="p-name">Jordan P.</span><span class="p-meta">Sun &middot; 11:00 AM</span></span>
+              <span class="p-avatar alt">b</span>
+              <span class="p-body"><span class="p-name">Example Customer B</span><span class="p-meta">Sun &middot; 11:00 AM</span></span>
               <span class="p-chip dim">Pending</span>
             </div>
             <div class="b-row">
-              <span class="p-avatar alt">ak</span>
-              <span class="p-body"><span class="p-name">Andre K.</span><span class="p-meta">Mon &middot; 5:30 PM</span></span>
+              <span class="p-avatar alt">c</span>
+              <span class="p-body"><span class="p-name">Example Customer C</span><span class="p-meta">Mon &middot; 5:30 PM</span></span>
               <span class="p-chip ok">Confirmed</span>
             </div>
             <p class="p-hint">The $1 reservation confirms the slot. You collect for the cut in person.</p>
@@ -859,17 +869,17 @@ src="https://www.facebook.com/tr?id=2460523177764023&ev=PageView&noscript=1"
             <h3>Reviews</h3>
             <div class="b-status" style="border-color: rgba(245,240,232,0.08)">
               <span class="b-status-body">
-                <span class="b-status-title"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span> 4.9</span>
-                <span class="b-status-sub">From 126 verified bookings</span>
+                <span class="b-status-title"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span></span>
+                <span class="b-status-sub">Only from verified bookings</span>
               </span>
               <span class="p-chip">Top Rated</span>
             </div>
             <div class="b-review">
-              <div class="b-review-head"><span class="b-review-name">Marcus D.</span><span class="stars sm">&#9733;&#9733;&#9733;&#9733;&#9733;</span></div>
+              <div class="b-review-head"><span class="b-review-name">Example Customer A</span><span class="stars sm">&#9733;&#9733;&#9733;&#9733;&#9733;</span></div>
               <p class="rev-text">"Cleanest fade I've had in years. Booked my next cut on the spot."</p>
             </div>
             <div class="b-review">
-              <div class="b-review-head"><span class="b-review-name">Priya S.</span><span class="stars sm">&#9733;&#9733;&#9733;&#9733;&#9733;</span></div>
+              <div class="b-review-head"><span class="b-review-name">Example Customer B</span><span class="stars sm">&#9733;&#9733;&#9733;&#9733;&#9733;</span></div>
               <p class="rev-text">"On time, great chair, and exactly the shape I asked for."</p>
             </div>
           </section>
@@ -974,11 +984,12 @@ src="https://www.facebook.com/tr?id=2460523177764023&ev=PageView&noscript=1"
           <p>Real portfolios of the closest chairs.</p>
         </div>
         <div class="scene sc-browse" aria-hidden="true">
+          <p class="sc-disclaimer">Example UI &ndash; not real listings</p>
           <p class="sc-eyebrow">Discover</p>
           <div class="sc-search"><span class="sc-typed">fade near me</span><span class="sc-caret"></span></div>
-          <div class="sc-row r1"><span class="sc-av">fl</span><span class="sc-b"><b class="sc-n">Fade Lab</b><span class="sc-m">$25 &middot; open Sat</span></span><span class="sc-chip">0.8 mi</span></div>
-          <div class="sc-row r2"><span class="sc-av alt">tc</span><span class="sc-b"><b class="sc-n">Taper City</b><span class="sc-m">$30 &middot; evenings</span></span><span class="sc-chip dim">1.4 mi</span></div>
-          <div class="sc-row r3"><span class="sc-av">nb</span><span class="sc-b"><b class="sc-n">Northside Blends</b><span class="sc-m">$22 &middot; open now</span></span><span class="sc-chip dim">2.1 mi</span></div>
+          <div class="sc-row r1"><span class="sc-av">a</span><span class="sc-b"><b class="sc-n">Example Barber A</b><span class="sc-m">open Sat</span></span></div>
+          <div class="sc-row r2"><span class="sc-av alt">b</span><span class="sc-b"><b class="sc-n">Example Barber B</b><span class="sc-m">evenings</span></span></div>
+          <div class="sc-row r3"><span class="sc-av">c</span><span class="sc-b"><b class="sc-n">Example Barber C</b><span class="sc-m">open now</span></span></div>
         </div>
       </article>
 
@@ -986,7 +997,7 @@ src="https://www.facebook.com/tr?id=2460523177764023&ev=PageView&noscript=1"
         <span class="n">#2</span>
         <div class="stepx-copy">
           <h3>Verify your email once</h3>
-          <p>After you log in, one code unlocks the vast catalog of independent barbers. It keeps both sides safe.</p>
+          <p>After you log in, one code unlocks barber contact details. It keeps both sides safe.</p>
         </div>
         <div class="scene sc-verify" aria-hidden="true">
           <p class="sc-eyebrow">Verify Email</p>
@@ -1003,8 +1014,9 @@ src="https://www.facebook.com/tr?id=2460523177764023&ev=PageView&noscript=1"
           <p>Pick a time, pay a $1 reservation fee, and you're booked. The cut itself is paid to your barber directly.</p>
         </div>
         <div class="scene sc-book" aria-hidden="true">
+          <p class="sc-disclaimer">Example UI &ndash; not real listings</p>
           <p class="sc-eyebrow">Book a Slot</p>
-          <p class="sc-cap">Sat, Aug 15 &middot; Fade Lab</p>
+          <p class="sc-cap">Sat &middot; Example Barber A</p>
           <div class="sc-slots"><i>10:00</i><i>11:30</i><i class="pick">1:00</i><i>3:30</i></div>
           <div class="sc-pay"><span>Reservation</span><b>$1.00</b></div>
           <div class="sc-ok"><span class="sc-chip ok">Booked &middot; pay your barber after</span></div>
@@ -1019,7 +1031,7 @@ src="https://www.facebook.com/tr?id=2460523177764023&ev=PageView&noscript=1"
         <span class="n">#1</span>
         <div class="stepx-copy">
           <h3>Create your listing free for 60 days</h3>
-          <p>Card required to start the trial: Premium is $9/mo or $79/yr after.</p>
+          <p>Card required to start the trial. Premium is $9/mo or $79/yr after, renews automatically, and you can cancel anytime.</p>
         </div>
         <div class="scene sc-listing" aria-hidden="true">
           <p class="sc-eyebrow">Create Listing</p>
@@ -1049,10 +1061,11 @@ src="https://www.facebook.com/tr?id=2460523177764023&ev=PageView&noscript=1"
           <p>Bookings come to you; the service payment stays 100% yours, off-platform.</p>
         </div>
         <div class="scene sc-chair" aria-hidden="true">
+          <p class="sc-disclaimer">Example UI &ndash; not real bookings</p>
           <p class="sc-eyebrow">Your Bookings</p>
           <div class="sc-toast">New booking request</div>
-          <div class="sc-row r1"><span class="sc-av">m</span><span class="sc-b"><b class="sc-n">Marcus R.</b><span class="sc-m">Sat &middot; 1:00 PM</span></span><span class="sc-chip ok">Confirmed</span></div>
-          <div class="sc-row r2"><span class="sc-av alt">d</span><span class="sc-b"><b class="sc-n">Devin O.</b><span class="sc-m">Sat &middot; 3:30 PM</span></span><span class="sc-chip dim">Pending</span></div>
+          <div class="sc-row r1"><span class="sc-av">a</span><span class="sc-b"><b class="sc-n">Example Customer A</b><span class="sc-m">Sat &middot; 1:00 PM</span></span><span class="sc-chip ok">Confirmed</span></div>
+          <div class="sc-row r2"><span class="sc-av alt">b</span><span class="sc-b"><b class="sc-n">Example Customer B</b><span class="sc-m">Sat &middot; 3:30 PM</span></span><span class="sc-chip dim">Pending</span></div>
         </div>
       </article>
 
@@ -1139,8 +1152,6 @@ src="https://www.facebook.com/tr?id=2460523177764023&ev=PageView&noscript=1"
         av.className = 'p-avatar lg' + (d.avatar === 'alt' ? ' alt' : '');
         profile.querySelector('[data-prof-name]').textContent = d.name;
         profile.querySelector('[data-prof-meta]').textContent = d.meta;
-        profile.querySelector('[data-prof-rating]').textContent = d.rating;
-        profile.querySelector('[data-prof-reviews]').textContent = d.reviews;
         showScreen('profile', 'discover');
       });
     });
